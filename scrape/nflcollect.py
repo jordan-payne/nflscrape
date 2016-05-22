@@ -1,5 +1,7 @@
 from selenium import webdriver
 import requests
+import os
+import errno
 
 def main():
     driver = get_driver()
@@ -66,9 +68,19 @@ def get_gamebooks_for_year(year, driver):
 
 def write_gamebooks(gamebooks):
     for gamebook in gamebooks:
+
         filename = derive_gamebook_name(gamebook['url'])+ '.pdf'
-        f = open('docs/%s' % (filename), 'w')
+        path = 'docs/'
+
+        # Try creating the directory for the gamebooks, if it exists, carry on.
+        try:
+            os.makedirs(path)
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+        f = open('%s%s' % (path, filename), 'w')
         newFileByteArray = bytearray(gamebook['content'])
+        print 'Writing %s to %s...' %(filename, path)
         f.write(newFileByteArray)
         f.close()
 
@@ -80,13 +92,13 @@ def derive_gamebook_name(url):
 def get_driver():
     return webdriver.PhantomJS()
 
-def login_nflgsis(driver):
+def login_nflgsis(driver, username, password):
     driver.get('http://nflgsis.com')
     name_input = driver.find_element_by_name('Name')
     password_input = driver.find_element_by_name('Password')
     login_button = driver.find_element_by_name('Login')
-    name_input.send_keys('media')
-    password_input.send_keys('media')
+    name_input.send_keys(username)
+    password_input.send_keys(password)
     login_button.click()
     accept_button = driver.find_element_by_name('btnAccept')
     accept_button.click()
