@@ -3,14 +3,6 @@ import requests
 import os
 import errno
 
-def main():
-    driver = get_driver()
-    driver = login_nflgsis(driver)
-    for year in range(2006,2016):
-        gamebooks = get_gamebooks_for_year(year, driver)
-        write_gamebooks(gamebooks)
-
-
 def get_gamebooks_for_year(year, driver):
     driver.switch_to_default_content()
     driver.switch_to_frame('BodyNav')
@@ -103,6 +95,3 @@ def login_nflgsis(driver, username, password):
     accept_button = driver.find_element_by_name('btnAccept')
     accept_button.click()
     return driver
-
-if __name__ == "__main__":
-    main()

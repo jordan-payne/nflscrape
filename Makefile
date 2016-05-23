@@ -1,7 +1,7 @@
 init:
 	pip install -r requirements.txt
 clean:
-	-rm -f -v */*.pyc
+	-rm -f -v **/*.pyc
 	-rm -rf **/.cache
 	-rm -rf **/__pycache__
 	-rm -f -v **/ghostdriver.log
@@ -14,4 +14,3 @@ ifeq ($(runslow),true)
 else
 	-py.test --username=$(username) --password=$(password)
 endif
-	killall phantomjs
