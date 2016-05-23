@@ -14,3 +14,4 @@ ifeq ($(runslow),true)
 else
 	-py.test --username=$(username) --password=$(password)
 endif
+	killall phantomjs

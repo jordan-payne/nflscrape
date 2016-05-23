@@ -2,4 +2,4 @@ docs
 .cache
 ghostdriver.log
 
-**/**.pyc
+**/*.pyc
